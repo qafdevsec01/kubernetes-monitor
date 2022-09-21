@@ -120,14 +120,14 @@ export async function clean(): Promise<void> {
         'snykmonitors.charts.helm.k8s.io',
         'snyk-monitor',
       )
-      .catch(() => undefined),
+      .catch(console.log),
     kubectl
       .patchResourceFinalizers(
         'snykmonitors.charts.helm.k8s.io',
         'snyk-monitor',
         'snyk-monitor',
       )
-      .catch(() => undefined),
+      .catch(console.log),
   ]);
 
   // Remove resources
@@ -138,38 +138,38 @@ export async function clean(): Promise<void> {
         'snykmonitors.charts.helm.k8s.io',
         'default',
       )
-      .catch(() => undefined),
+      .catch(console.log),
     kubectl
       .deleteResource('catalogsource', 'snyk-operator', 'openshift-marketplace')
-      .catch(() => undefined),
+      .catch(console.log),
     kubectl
       .deleteResource('clusterrolebinding', 'snyk-monitor', 'default')
-      .catch(() => undefined),
+      .catch(console.log),
     kubectl
       .deleteResource('clusterrole', 'snyk-monitor', 'default')
-      .catch(() => undefined),
+      .catch(console.log),
     kubectl
       .deleteResource('--all', 'all,sa,cm,secret,pvc', 'services')
-      .catch(() => undefined),
+      .catch(console.log),
     kubectl
       .deleteResource('--all', 'all,sa,cm,secret,pvc', 'argo-rollout')
-      .catch(() => undefined),
+      .catch(console.log),
     kubectl
       .deleteResource('--all', 'all,sa,cm,secret,pvc', 'snyk-monitor')
-      .catch(() => undefined),
+      .catch(console.log),
   ]);
 
   // Kubernetes will be stuck trying to delete these namespaces if we don't clear the finalizers.
   await Promise.all([
-    kubectl.patchNamespaceFinalizers('services').catch(() => undefined),
-    kubectl.patchNamespaceFinalizers('argo-rollouts').catch(() => undefined),
-    kubectl.patchNamespaceFinalizers('snyk-monitor').catch(() => undefined),
+    kubectl.patchNamespaceFinalizers('services').catch(console.log),
+    kubectl.patchNamespaceFinalizers('argo-rollouts').catch(console.log),
+    kubectl.patchNamespaceFinalizers('snyk-monitor').catch(console.log),
   ]);
   // Remove namespaces
   await Promise.all([
-    kubectl.deleteNamespace('services').catch(() => undefined),
-    kubectl.deleteNamespace('argo-rollouts').catch(() => undefined),
-    kubectl.deleteNamespace('snyk-monitor').catch(() => undefined),
+    kubectl.deleteNamespace('services').catch(console.log),
+    kubectl.deleteNamespace('argo-rollouts').catch(console.log),
+    kubectl.deleteNamespace('snyk-monitor').catch(console.log),
   ]);
 }
 

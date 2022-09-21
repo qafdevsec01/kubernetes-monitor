@@ -38,6 +38,11 @@ workflows:
           requires:
             - build_image
           <<: *main_branches_filter
+      - openshift4_integration_tests:
+          requires:
+            - build_image
+            - build_and_upload_operator
+          <<: *main_branches_filter
       - integration_tests_helm:
           requires:
             - build_image
