@@ -314,4 +314,13 @@ test('Kubernetes-Monitor with KinD', async () => {
   require('../../src');
 
   expect(emptyDirSyncStub).toHaveBeenCalled();
+
+  setTimeout(() => {
+    try {
+      expect(nock.isDone()).toBeTruthy();
+    } catch (err) {
+      console.error(`nock pending mocks: ${nock.pendingMocks()}`);
+      throw err;
+    }
+  }, 10000);
 });
